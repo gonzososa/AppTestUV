@@ -10,7 +10,7 @@
 
     <item android:id="@+id/menuAbout"
         android:title="About"
-        appuv:showAsAction="never"
+        appuv:showAsAction="ifRoom"
         android:icon="@mipmap/ic_about" />
 
 </menu>

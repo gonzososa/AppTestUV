@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/nav_home" />
+
+
+        <item
+            android:id="@+id/nav_foto"
+            android:title="@string/nav_camera" />
+
+        <item
+            android:id="@+id/configSection"
+            android:title="@string/nav_config">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_login"
+                    android:title="@string/nav_login" />
+                
+                <item
+                    android:id="@+id/nav_setttings"
+                    android:title="@string/nav_settings" />
+
+            </menu>
+
+        </item>
+
+    </group>
+
+
+</menu>

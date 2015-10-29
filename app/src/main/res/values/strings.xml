@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">AppTestUV</string>
     <string name="nombre">Nombre</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_camera">Cámara</string>
+    <string name="nav_config">Configuración</string>
+    <string name="nav_login">Iniciar sesión</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="email">Email</string>
+    <string name="username">Usuario</string>
+
 </resources>
