@@ -53,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
                         index = menuItem.getOrder ();
                         loadCameraFragment ();
                         break;
+                    case R.id.nav_login:
+                        loadLogin();
+                        break;
                     case R.id.nav_setttings:
-                        Snackbar.make(drawerLayout, TAG_SETTINGS, Snackbar.LENGTH_LONG).show ();
+                        loadSettingsFragment ();
                 }
 
                 drawerLayout.closeDrawer (GravityCompat.START);
@@ -110,12 +113,11 @@ public class MainActivity extends AppCompatActivity {
         trans.addToBackStack (null);
         trans.replace (R.id.main_content, f);
         trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        trans.commit ();
+        trans.commit();
 
     }
 
-    private void loadCameraFragment ()
-    {
+    private void loadCameraFragment () {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction trans = manager.beginTransaction();
         CameraFragment c = new CameraFragment();
@@ -124,4 +126,26 @@ public class MainActivity extends AppCompatActivity {
         trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         trans.commit ();
     }
+
+    private void loadSettingsFragment () {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        SettingsFragment s = new SettingsFragment ();
+        trans.addToBackStack (null);
+        trans.replace (R.id.main_content, s);
+        trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        trans.commit ();
+    }
+
+    private void loadLogin () {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        LoginFragment l = new LoginFragment ();
+        trans.addToBackStack (null);
+        trans.replace (R.id.main_content, l);
+        trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        trans.commit ();
+    }
+
+
 }

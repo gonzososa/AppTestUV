@@ -3,9 +3,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imgPhoto"
+
+    <WebView
+        android:id="@+id/webViewLogin"
         android:layout_width="match_parent"
-        android:layout_height="192dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

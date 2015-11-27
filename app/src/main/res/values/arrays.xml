@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="imageQuality">
+        <item>Alta</item>
+        <item>Media</item>
+        <item>Baja</item>
+    </string-array>
+</resources>
