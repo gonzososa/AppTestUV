@@ -1,5 +1,7 @@
 package mx.uv.facing.demos.apptestuv;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.MediaController;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -37,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById (R.id.drawerLayout);
 
-
         navigationView = (NavigationView) findViewById (R.id.nav_view);
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -64,6 +67,40 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        final VideoView videoView = (VideoView) findViewById (R.id.videoView);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView (videoView);
+        mediaController.setMediaPlayer (videoView);
+
+        String videoPath = "https://dl.dropboxusercontent.com/u/52679306/movie.mp4";
+        Uri videoURI = Uri.parse (videoPath);
+        videoView.setMediaController (mediaController);
+        videoView.setVideoURI(videoURI);
+        videoView.requestFocus();
+
+        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                Toast.makeText (getBaseContext(), "Error", Toast.LENGTH_LONG).show ();
+                return true;
+            }
+        });
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                videoView.start ();
+            }
+        });
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.pause();
+            }
+        });
+
     }
 
     @Override
