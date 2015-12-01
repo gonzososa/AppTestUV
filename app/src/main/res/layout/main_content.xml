@@ -20,11 +20,13 @@
         android:background="@color/white">
 
 
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnCalendar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Calendar"
+            />
 
-        </FrameLayout>
+    </FrameLayout>
 
 </LinearLayout>
