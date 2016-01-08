@@ -30,4 +30,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.flickr4java:flickr4java:2.13'
+    compile 'com.roomorama:caldroid:2.3.1'
 }

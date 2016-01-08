@@ -21,11 +21,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.roomorama.caldroid.CaldroidFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,79 +63,78 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId ()) {
+                switch (menuItem.getItemId()) {
                     case R.id.nav_home:
-                        index = menuItem.getOrder ();
+                        index = menuItem.getOrder();
                         loadGalleryFragment();
                         break;
                     case R.id.nav_foto:
-                        index = menuItem.getOrder ();
-                        loadCameraFragment ();
+                        index = menuItem.getOrder();
+                        loadCameraFragment();
                         break;
                     case R.id.nav_login:
                         loadLogin();
                         break;
                     case R.id.nav_setttings:
-                        loadSettingsFragment ();
+                        loadSettingsFragment();
                 }
 
-                drawerLayout.closeDrawer (GravityCompat.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
             }
         });
 
-
-        Button b = (Button) findViewById (R.id.btnCalendar);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2015, 12, 01,12, 30);
-
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(2015, 12, 01, 13, 45);
-
-                ContentResolver cr = getContentResolver();
-                ContentValues values = new ContentValues();
-                TimeZone timeZone = TimeZone.getDefault();
-                values.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis ());
-                values.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis ());
-                values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-                values.put(CalendarContract.Events.TITLE, "Walk The Dog");
-                values.put(CalendarContract.Events.DESCRIPTION, "My dog is bored, so we're going on a really long walk!");
-                values.put(CalendarContract.Events.CALENDAR_ID, 3);
-
-                try {
-                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-                    Log.i ("A", uri.toString ());
-                } catch (SecurityException ex) {
-
-                }
-            }
-
-            int getCalendarId () {
-                Uri uri = CalendarContract.Calendars.CONTENT_URI;
-
-                String [] projection = new String [] {
-                        CalendarContract.Calendars._ID,
-                        CalendarContract.Calendars.ACCOUNT_NAME,
-                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                        CalendarContract.Calendars.NAME,
-                        CalendarContract.Calendars.CALENDAR_COLOR
-                };
-
-                Cursor calendarCursor = managedQuery (uri, projection, null, null, null);
-
-                calendarCursor.moveToFirst();
-                while (calendarCursor.moveToNext()) {
-                    Log.i("A", calendarCursor.getString(calendarCursor.getColumnIndex("ACCOUNT_NAME")));
-                    Log.i ("A", calendarCursor.getString (calendarCursor.getColumnIndex("_ID")));
-                }
-
-                calendarCursor.moveToFirst();
-                return calendarCursor.getColumnIndex("_id");
-            }
-        });
+//        Button b = (Button) findViewById (R.id.btnCalendar);
+//        b.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar beginTime = Calendar.getInstance();
+//                beginTime.set(2015, 12, 01,12, 30);
+//
+//                Calendar endTime = Calendar.getInstance();
+//                endTime.set(2015, 12, 01, 13, 45);
+//
+//                ContentResolver cr = getContentResolver();
+//                ContentValues values = new ContentValues();
+//                TimeZone timeZone = TimeZone.getDefault();
+//                values.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis ());
+//                values.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis ());
+//                values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+//                values.put(CalendarContract.Events.TITLE, "Walk The Dog");
+//                values.put(CalendarContract.Events.DESCRIPTION, "My dog is bored, so we're going on a really long walk!");
+//                values.put(CalendarContract.Events.CALENDAR_ID, 3);
+//
+//                try {
+//                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+//                    Log.i ("A", uri.toString ());
+//                } catch (SecurityException ex) {
+//
+//                }
+//            }
+//
+//            int getCalendarId () {
+//                Uri uri = CalendarContract.Calendars.CONTENT_URI;
+//
+//                String [] projection = new String [] {
+//                        CalendarContract.Calendars._ID,
+//                        CalendarContract.Calendars.ACCOUNT_NAME,
+//                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+//                        CalendarContract.Calendars.NAME,
+//                        CalendarContract.Calendars.CALENDAR_COLOR
+//                };
+//
+//                Cursor calendarCursor = managedQuery (uri, projection, null, null, null);
+//
+//                calendarCursor.moveToFirst();
+//                while (calendarCursor.moveToNext()) {
+//                    Log.i("A", calendarCursor.getString(calendarCursor.getColumnIndex("ACCOUNT_NAME")));
+//                    Log.i ("A", calendarCursor.getString (calendarCursor.getColumnIndex("_ID")));
+//                }
+//
+//                calendarCursor.moveToFirst();
+//                return calendarCursor.getColumnIndex("_id");
+//            }
+//        });
 
 //        final VideoView videoView = (VideoView) findViewById (R.id.videoView);
 //        MediaController mediaController = new MediaController (this);
@@ -230,13 +235,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSettingsFragment () {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction trans = manager.beginTransaction();
-        SettingsFragment s = new SettingsFragment ();
-        trans.addToBackStack (null);
-        trans.replace (R.id.main_content, s);
-        trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        trans.commit ();
+//        FragmentManager manager = getSupportFragmentManager();
+//        FragmentTransaction trans = manager.beginTransaction();
+//        SettingsFragment s = new SettingsFragment ();
+//        trans.addToBackStack (null);
+//        trans.replace (R.id.main_content, s);
+//        trans.setTransition (FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        trans.commit ();
+
+        Calendar cal = Calendar.getInstance ();
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle ();
+        args.putInt (CaldroidFragment.MONTH, cal.get (Calendar.MONTH) + 1);
+        args.putInt (CaldroidFragment.YEAR, cal.get (Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+
+        cal = Calendar.getInstance ();
+        cal.add (Calendar.DATE, -7);
+        Date minDate = cal.getTime ();
+
+        cal = Calendar.getInstance ();
+        cal.add (Calendar.DATE, 14);
+        Date maxDate = cal.getTime ();
+
+        cal = Calendar.getInstance ();
+        cal.add (Calendar.DATE, 0);
+        Date fromDate = cal.getTime ();
+
+        cal = Calendar.getInstance ();
+        cal.add (Calendar.DATE, 3);
+        Date toDate = cal.getTime ();
+
+        caldroidFragment.setMinDate (minDate);
+        caldroidFragment.setMaxDate (maxDate);
+        caldroidFragment.setSelectedDates (fromDate, toDate);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction ();
+        transaction.replace (R.id.main_content, caldroidFragment);
+        transaction.commit ();
     }
 
     private void loadLogin () {
